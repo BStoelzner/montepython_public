@@ -151,7 +151,8 @@ def read_args_from_bestfit(data, bestfit):
                 bestfit_values[bestfit_names.index(elem)] / \
                 data.mcmc_parameters[elem]['scale']
             print('from best-fit file : {} = '.format(elem))
-            print(bestfit_values[bestfit_names.index(elem)])
+            print(bestfit_values[bestfit_names.index(elem)] / \
+                data.mcmc_parameters[elem]['scale'])
         else:
             data.mcmc_parameters[elem]['last_accepted'] = \
                 data.mcmc_parameters[elem]['initial'][0]
@@ -803,7 +804,7 @@ def compute_lkl(cosmo, data):
                 "Could not write the current derived parameters")
 
     # DCH adding a check to make sure the derived_lkl are passed properly
-    if data.get_mcmc_parameters(['derived_lkl']) != [] or hasattr(data,'derived_lkl'):
+    if data.get_mcmc_parameters(['derived_lkl']) != []:
         try:
             for (name, value) in data.derived_lkl.items():
                 data.mcmc_parameters[name]['current'] = value
