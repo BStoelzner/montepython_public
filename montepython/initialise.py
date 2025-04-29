@@ -161,7 +161,7 @@ def recover_cosmological_module(data):
             classy_path = ''
             for elem in os.listdir(os.path.join(
                     data.path['cosmo'], "python", "build")):
-                if elem.find("lib.") != -1:
+                if elem.find("lib.") != -1 and elem.find(sys.version)!=-1:
                     classy_path = os.path.join(
                         data.path['cosmo'], "python", "build", elem)
                 if len(classy_path)==1:

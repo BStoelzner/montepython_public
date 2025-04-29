@@ -1,0 +1,132 @@
+# Lyman-alpha likelihood based on the alpha-beta-gamma-delta
+# approach described in detail in 2206.08188. Likelihood
+# written by D. C. Hooper, N. Schoeneberg, R. Murgia,
+# M. Archidiacono, J. Lesgourgues, and M. Viel.
+# This is an extension to the alpha-beta-gamma likelihood
+# discussed in 1907.01496.
+
+# This likelihood should always be used together with
+# a CMB likelihood (e.g. Planck), and is only
+# applicable for models that can be described by the
+# alpha-beta-gamma-delta (or alpha-beta-gamma) parameterisations.
+
+# Important! This likelihood requires CLASS version 2.9 or higher.
+
+# Make the likelihood more talkative by increasing the number
+Lya_abgd.verbose = 1
+
+# In all normal circumstances you run this likelihood for models with
+# a power suppression. If you are intending to run with a normal LCDM
+# model for some unknown reason, then turn this flag on.
+Lya_abgd.isLCDM = False
+
+## Physical parameters ##
+# z and k (in s/km) values for the lyman-alpha slope,
+# can be changed with some care
+Lya_abgd.k_s_over_km = 0.009
+Lya_abgd.z = 3.
+
+# Other k (in h/Mpc) values used in the comparisons and checks
+Lya_abgd.kmax  = 200.
+Lya_abgd.kmin  = 0.01
+Lya_abgd.k_size = 500
+
+
+## Dataset definition ##
+# Which dataset we are using?
+Lya_abgd.DATASET = "mike-hires"
+Lya_abgd.zp = 4.5
+
+# The redshift array had first the XQ-100 z (low z) and then the MIKE HIRES z (high z),
+# so we need num_z_XQ to rescale the redshift array when using only MIKE HIRES
+Lya_abgd.num_z_XQ = 7
+# z with overlapping data of both XQ-100 and MIKE HIRES
+Lya_abgd.num_z_overlap = 1
+
+
+## File structure and grid files ##
+# Data directory and bin file (for models that fail the checks)
+Lya_abgd.data_directory   = data.path['data']
+Lya_abgd.bin_file_name = "Lya_abgd_bin_file.txt"
+
+# Files corresponding to grid of simulations
+Lya_abgd.abg_grid_file = "Lya_grid/ABG_only_grid.dat"
+Lya_abgd.abg_grid_size = 109
+Lya_abgd.abd_grid_file = "Lya_grid/ABD_only_grid_sept2020.dat"
+Lya_abgd.abd_grid_size = 83
+Lya_abgd.thermal_grid_file = "Lya_grid/ABG_thermalWDM_only_grid.dat"
+Lya_abgd.thermal_grid_size = 8
+Lya_abgd.astro_spectra_file = "Lya_grid/full_matrix_interpolated_ASTRO.pkl"
+Lya_abgd.abg_spectra_file = "Lya_grid/full_matrix_interpolated_ABG_only.pkl"
+Lya_abgd.abd_spectra_file = "Lya_grid/full_matrix_interpolated_ABD_only_sept2020.pkl"
+Lya_abgd.thermal_spectra_file = "Lya_grid/full_matrix_interpolated_thermalWDM_only.pkl"
+Lya_abgd.lcdm_spectra_file = "Lya_grid/full_matrix_interpolated_LCDM.pkl"
+Lya_abgd.astro_grid_file = "Lya_grid/kriging_GRID_2R_astro_18p_HR_noPRACE.dat"
+Lya_abgd.MIKE_spectra_file = "Lya_grid/y_M_reshaped.pkl"
+Lya_abgd.HIRES_spectra_file = "Lya_grid/y_H_reshaped.pkl"
+Lya_abgd.MIKE_cov_file = "Lya_grid/cov_M_inverted.pkl"
+Lya_abgd.HIRES_cov_file = "Lya_grid/cov_H_inverted.pkl"
+Lya_abgd.PF_noPRACE_file = "Lya_grid/PF_noPRACE.pkl"
+
+
+## Interpolation/weighing parameters ##
+# Parameters related to the simulations in the grid
+Lya_abgd.epsilon_astro = 1e-8
+Lya_abgd.exponent_astro = 6.
+Lya_abgd.epsilon_tk = 1e-8
+Lya_abgd.exponent_tk = 6.
+
+# Parameters relevant for the fitting function
+# Correspond to min/max values for the simulations
+Lya_abgd.alpha_min_abg = 0.
+Lya_abgd.alpha_max_abg = 0.17
+Lya_abgd.beta_min_abg = 1.5
+Lya_abgd.beta_max_abg = 10.
+Lya_abgd.gamma_min_abg = -10.
+Lya_abgd.gamma_max_abg = -0.15
+Lya_abgd.alpha_min_abd = 0.
+Lya_abgd.alpha_max_abd = 0.1
+Lya_abgd.beta_min_abd = 1.3
+Lya_abgd.beta_max_abd = 6.89
+Lya_abgd.delta_min_abd = 0.
+Lya_abgd.delta_max_abd = 1.
+
+
+## Likelihood options for interpolation, smoothing, fitting ##
+# Smoothing options, to take care of smoothing oscillations
+# at large k. Available smoothing methods are:
+# ["None", "logk_smoothing", "increasing_smoothing_logk", "fit_abgd"].
+Lya_abgd.smoothing_method = "None"
+Lya_abgd.smoothing_scale_logk = 0.2
+# The parameter scale of around 1, has to be found good for log(k), similar to d^2T/dlnk^2 > 0.005
+Lya_abgd.logk_scale_abgd_fit = 1.
+Lya_abgd.d2_Tk_dlnk2_abgd_limit = 0.005
+
+# Fitting options, to find the nearest grid points. Available
+# fitting methods are:
+# ["None", "bounded", "hybrid", "hybrid_bounded", "regularized"]
+Lya_abgd.use_least_square = "None"
+# When using the hybrid method, how much weight do we give each
+# method? (0 = leastsquare, infinity = weight distance, ~1 for strong
+# LS preference, ~10000 for strong WD preference)
+Lya_abgd.use_lstsq_vs_nearest = 10.0
+# When using regularized, how do we weight the grid? (0 = leastsquare,
+# infinity = all weights as small as possible, 0.1 appears optimal)
+Lya_abgd.regularized_lambda = 0.1
+
+# Parameters related to area criterion and distance to weights (derived parameters)
+Lya_abgd.area_criterion_kmax = 20.
+Lya_abgd.area_criterion_kmin = 0.5
+Lya_abgd.weight_min = 0.001
+
+## Options for test runs
+# Do we want a coverage test? This shows where the likelihood
+# passes all sanity checks, does not compare model to Lyman_alpha data.
+Lya_abgd.TEST_nodata_run = False
+# Keep astrophysical parameters fixed to the fiducial values? (acts as
+# a marginalisation over astro, can speed up run but less reliable.
+Lya_abgd.TEST_set_astro_to_fiducial = False
+
+
+## List of nuisance parameters expected by the likelihood
+Lya_abgd.use_nuisance = ['T0a','T0s','gamma_a','gamma_s','Fz1','Fz2','Fz3','Fz4','F_UV']

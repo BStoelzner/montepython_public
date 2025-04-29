@@ -16,24 +16,23 @@ data.parameters['n_s']               = [  0.9665,  None, None,   0.0038,  1,    
 data.parameters['A_s']               = [2.105e-9,  None, None,  3.0e-11,  1,    'cosmo']
 
 # Nuisance parameters list
-data.parameters['sd_delta_T']        = [     0.0,  None, None,     1e-6,  1, 'nuisance']
-data.parameters['sd_T_D']            = [     21.,  None, None,      1.0,  1, 'nuisance']
-data.parameters['sd_beta_D']         = [    1.53,  None, None,    0.025,  1, 'nuisance']
-data.parameters['sd_A_D']            = [  1.49e6,    0., None,      1e3,  1, 'nuisance']
-data.parameters['sd_T_CIB']          = [    18.8,  None, None,      0.6,  1, 'nuisance']
-data.parameters['sd_beta_CIB']       = [    0.86,  None, None,     0.06,  1, 'nuisance']
-data.parameters['sd_A_CIB']          = [  4.10e5,    0., None,      5e3,  1, 'nuisance']
-data.parameters['sd_alpha_sync']     = [    0.82,  None, None,    0.041,  1, 'nuisance']
-data.parameters['sd_omega_sync']     = [     0.2,  None, None,     50.0,  1, 'nuisance']
-data.parameters['sd_A_sync']         = [    288.,    0., None,     50.0,  1, 'nuisance']
-data.parameters['sd_T_e']            = [   7000.,  None, None,    250.0,  1, 'nuisance']
-data.parameters['sd_EM']             = [     15.,  None, None,     17.5,  1, 'nuisance']
-data.parameters['sd_nu_p_spin']      = [     19.,  None, None,      0.5,  1, 'nuisance']
-data.parameters['sd_A_spin']         = [ 1485.33,    0., None,      1e6,  1, 'nuisance']
-data.parameters['sd_A_CO']           = [      1.,    0., None,      0.5,  1, 'nuisance']
-
-# Only activate if you want to marginalize over y_reio * Y(x) instead of using CLASS to do it for you using the SZ equations
-data.parameters['sd_y_reio_nuisance']= [ 1.77e-6,  None, None,     1e-6,  1, 'nuisance']
+data.parameters['sd_delta_T']        = [     0.0,  None, None,    5e-10,  1, 'nuisance']
+data.parameters['sd_T_D']            = [     21.,  None, None,     5e-5,  1, 'nuisance']
+data.parameters['sd_beta_D']         = [    1.53,  None, None,     5e-6,  1, 'nuisance']
+data.parameters['sd_A_D']            = [  1.49e6,    0., None,      0.5,  1, 'nuisance']
+data.parameters['sd_T_CIB']          = [    18.8,  None, None,      0.0,  1, 'nuisance']
+data.parameters['sd_beta_CIB']       = [    0.86,  None, None,      0.0,  1, 'nuisance']
+data.parameters['sd_A_CIB']          = [  4.10e5,    0., None,      0.0,  1, 'nuisance']
+data.parameters['sd_alpha_sync']     = [    0.82,  None, None,    0.005,  1, 'nuisance']
+data.parameters['sd_omega_sync']     = [     0.2,  None, None,    0.005,  1, 'nuisance']
+data.parameters['sd_A_sync']         = [    288.,    0., None,       1.,  1, 'nuisance']
+data.parameters['sd_T_e']            = [   7000.,  None, None,      10.,  1, 'nuisance']
+data.parameters['sd_EM']             = [     15.,  None, None,    0.001,  1, 'nuisance']
+data.parameters['sd_nu_p_spin']      = [     19.,  None, None,     0.05,  1, 'nuisance']
+data.parameters['sd_A_spin']         = [ 1485.33,    0., None,       5.,  1, 'nuisance']
+data.parameters['sd_A_CO']           = [      1.,    0., None,     5e-4,  1, 'nuisance']
+# Only activate if you want to marginalize over y_reio * Y(x) instead of using actual CLASS to do it for you using the SZ equations
+data.parameters['sd_y_reio_nuisance']= [ 1.77e-6,  None, None,    5e-10,  1, 'nuisance']
 # Only activate for tests!
 #data.parameters['sd_mu_nuisance']    = [     0.0,  None, None,       0.,  1, 'nuisance']
 

@@ -135,7 +135,7 @@ def recover_new_experiments(data, command_line, starting_folder):
             if line.find('data.experiments') != -1:
                 _, experiments = line.split('=')
                 experiments = experiments.strip()
-    print('The likelihood will be computed only for:'
+    print('The likelihood will be computed only for:')
     new_experiments = [
         elem for elem in data.experiments if elem not in experiments]
     sys.stdout.write(' ->')

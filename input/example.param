@@ -22,6 +22,9 @@ data.parameters['h']         	= [0.703,  -1,-1, 0.0065,1,   'cosmo']
 data.parameters['tau_reio']    	= [0.085,  -1,-1, 0.0044,1,   'cosmo']
 
 # Nuisance parameter list, same call, except the name does not have to be a class name
+# Note the nuisance parameters must follow *immediately after* the cosmo parameters,
+# MP expects cosmo, nuisance, derived
+
 # For wmap:
 #data.parameters['A_SZ']         = [1,    0, 2,   1, 1,  'nuisance']
 # For SPT
@@ -39,3 +42,6 @@ data.N=10
 # Number of accepted steps before writing to file the chain. Larger means less
 # access to disc, but this is not so much time consuming.
 data.write_step=5
+
+
+# Note: MP will only interpret comments if the line begins with # (you cannot add comments at the end of lines!)

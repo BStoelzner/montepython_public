@@ -1,0 +1,15 @@
+# Likelihood is from eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+# https://svn.sdss.org/public/data/eboss/DR16cosmo/tags/v1_0_1/
+# MontePython version by V. Poulin & T. Brinckmann
+
+# The BAO+full shape likelihood for the eBOSS DR16 QSO sample.
+# You must cite these references if you use the likelihood:
+# Extended Baryon Oscillation Spectroscopic Survey (eBOSS) DR16:
+# QSO (zeff = 1.48): J. Hou et al. https://arxiv.org/abs/2007.08998, R. Neveux et al. https://arxiv.org/abs/2007.08999
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+bao_fs_eBOSS_DR16_QSO.data_directory      = data.path['data']
+bao_fs_eBOSS_DR16_QSO.data_file           = 'eBOSS_DR16/BAO-plus/sdss_DR16_QSO_FSBAO_DMDHfs8.txt'
+bao_fs_eBOSS_DR16_QSO.cov_file            = 'eBOSS_DR16/BAO-plus/sdss_DR16_QSO_FSBAO_DMDHfs8_covtot.txt'
+bao_fs_eBOSS_DR16_QSO.rs_rescale          = 1.
+bao_fs_eBOSS_DR16_QSO.rd_fid_in_Mpc	      = 147.78

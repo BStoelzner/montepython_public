@@ -301,6 +301,8 @@ def create_output_files(command_line, data):
             restartname = filebase + sep1 + str(int(chainbase)+suffix-1) + sep2 + fileext
         else:
             restartname = filebase + sep1 + command_line.chain_number + sep2 + fileext
+        # This new filename needs to be passed back to the code, so the correct file is removed later
+        command_line.restart = restartname
         # Copy old chain to the new chain. Return error if file doesn't exist.
         try:
             for line in open(restartname, 'r'):

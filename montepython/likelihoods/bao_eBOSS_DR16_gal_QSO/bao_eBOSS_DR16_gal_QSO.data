@@ -1,0 +1,54 @@
+# Likelihood is from eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+# https://svn.sdss.org/public/data/eboss/DR16cosmo/tags/v1_0_1/
+
+# eBOSS DR16 BAO-only likelihoods were added to MontePython by S. Alvi and T. Brinckmann in 2021
+# for S. Alvi et al. https://arxiv.org/abs/2205.05636
+# NOTE: You must cite all relevant references below to credit the collaboration for their work.
+# You may *optionally* cite the reference above if you want to credit the MontePython addition.
+
+# References for this BAO-only likelihood:
+# Baryon Oscillation Spectroscopic Survey (BOSS) DR12:
+# Galaxies (zeff = 0.38, 0.51): S. Alam et al. https://arxiv.org/abs/1607.03155
+# Extended Baryon Oscillation Spectroscopic Survey (eBOSS) DR16:
+# Luminous Red Galaxies (zeff = 0.7): J.E. Bautista et al. https://arxiv.org/abs/2007.08993, H. Gil-Marin et al. https://arxiv.org/abs/2007.08994
+# QSO (zeff = 1.48): J. Hou et al. https://arxiv.org/abs/2007.08998, R. Neveux et al. https://arxiv.org/abs/2007.08999
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+# Full list of references for all eBOSS_DR16 BAO-only likelihoods:
+# gal_QSO (DR12 galaxies): S. Alam et al. https://arxiv.org/abs/1607.03155
+# gal_QSO (DR16 LRG): J.E. Bautista et al. https://arxiv.org/abs/2007.08993, H. Gil-Marin et al. https://arxiv.org/abs/2007.08994
+# gal_QSO (DR16 QSO): J. Hou et al. https://arxiv.org/abs/2007.08998, R. Neveux et al. https://arxiv.org/abs/2007.08999
+# ELG (DR16 ELG): A. Tamone et al. https://arxiv.org/abs/2007.09009, A. de Mattia et al. https://arxiv.org/abs/2007.09008
+# Lya_auto (DR16 Lya): H. du Mas des Bourboux et al. https://arxiv.org/abs/2007.08995
+# Lya_cross_QSO (DR16 Lya x QSO): H. du Mas des Bourboux et al. https://arxiv.org/abs/2007.08995
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+# Includes LRG samples from SDSS DR12 (do not use
+# the bao_boss_dr12 likelihood with this likelihood)
+# and QSO data.
+
+# The likelihood and the data are
+# concated into one datavector and covariance matrix
+# with the option to choose which ones to include.
+
+
+# The directory where the following files are stored
+bao_eBOSS_DR16_gal_QSO.data_directory      = data.path['data']
+
+# Options for DR12 LRG datasets (z_eff = 0.38, 0.51)
+bao_eBOSS_DR16_gal_QSO.lrg_dr12 = True
+bao_eBOSS_DR16_gal_QSO.lrg_dr12_data_file  = 'eBOSS_DR16/BAO-only/sdss_DR12_LRG_BAO_DMDH.txt'
+bao_eBOSS_DR16_gal_QSO.lrg_dr12_cov_file   = 'eBOSS_DR16/BAO-only/sdss_DR12_LRG_BAO_DMDH_covtot.txt'
+
+# Options for DR16 LRG datasets (z_eff = 0.70)
+bao_eBOSS_DR16_gal_QSO.lrg_dr16 = True
+bao_eBOSS_DR16_gal_QSO.lrg_dr16_data_file  = 'eBOSS_DR16/BAO-only/sdss_DR16_LRG_BAO_DMDH.txt'
+bao_eBOSS_DR16_gal_QSO.lrg_dr16_cov_file   = 'eBOSS_DR16/BAO-only/sdss_DR16_LRG_BAO_DMDH_covtot.txt'
+
+# Options for DR16 QSO datasets (z_eff = 1.48)
+bao_eBOSS_DR16_gal_QSO.qso_dr16 = True
+bao_eBOSS_DR16_gal_QSO.qso_data_file       = 'eBOSS_DR16/BAO-only/sdss_DR16_QSO_BAO_DMDH.txt'
+bao_eBOSS_DR16_gal_QSO.qso_cov_file        = 'eBOSS_DR16/BAO-only/sdss_DR16_QSO_BAO_DMDH_covtot.txt'
+
+bao_eBOSS_DR16_gal_QSO.rs_rescale          = 1.
+bao_eBOSS_DR16_gal_QSO.rd_fid_in_Mpc       = 147.78

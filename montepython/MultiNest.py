@@ -95,6 +95,7 @@ NS_user_arguments = {
     }
 # Automatically-defined arguments of PyMultiNest, type specified
 NS_auto_arguments = {
+    'base_dir': {'type': str}
     'n_dims':   {'type': int},
     'n_params': {'type': int},
     'verbose':  {'type': str2bool},
@@ -169,7 +170,7 @@ def initialise(cosmo, data, command_line):
         if not param in NS_param_names:
             NS_param_names.append(param)
     data.NS_param_names = NS_param_names
-            
+
     # Caveat: multi-modal sampling OFF by default; if requested, INS disabled
     try:
         if data.NS_arguments['multimodal']:
@@ -273,7 +274,7 @@ def run(cosmo, data, command_line):
         for i, name in enumerate(derived_param_names):
             cube[ndim+i] = data.mcmc_parameters[name]['current']
         return lkl
-    
+
     #FK: recover name of base folder and remove entry from dict before passing it
     # on to MN:
     base_dir = data.NS_arguments['base_dir']
@@ -356,10 +357,10 @@ def from_NS_output_to_chains(folder):
             if line.strip()[0] == '#':
                 continue
 
-            # These lines allow MultiNest to deal with fixed nuisance parameters 
+            # These lines allow MultiNest to deal with fixed nuisance parameters
             sigma = float(line.split(',')[3].strip())
             if sigma == 0.0:
-                #If derived parameter, keep it, else discard it:                                 
+                #If derived parameter, keep it, else discard it:
                 paramtype = line.split(',')[5].strip()[1:-2]
                 if paramtype != 'derived':
                     continue

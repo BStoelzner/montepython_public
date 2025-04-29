@@ -1,0 +1,30 @@
+
+##August 25, 2022
+First version of the Pantheon_Plus and Pantheon+SH0ES likelihoods from  
+
+Pantheon+ arXiv:2202.04077 and SH0ES arXiv:2112.04510
+
+based on former Pantheon likelihood by Rodrigo von Martens which was based on the JLA likelihood
+it is the Montepython adaptation of the lkl written for cosmosis and available at https://pantheonplussh0es.github.io/
+
+author: Vivian Poulin <vivian.poulin@umontpellier.fr> with help from Dillon Brout and Dan Scolnic
+
+##instructions##
+
+1) move the "Pantheon_Plus" and "Pantheon_Plus_SH0ES" folder to within your montepython/likelihoods folder
+2) move the content of the data folder to the data folder of montepython.
+3) you can run with either Pantheon_Plus or with Pantheon_Plus_SH0ES. 
+4) Just as for the former Pantheon data, the only nuisance parameter is "M" the SN1a intrinsic magnitude. Don't forget to include it in a run:
+
+data.parameters['M']	   = [-19.2, -30, -10, 0.5,  1, 'nuisance']
+
+
+## Note ##
+
+The Pantheon_Plus_SH0ES uses additional cepheid distances as a calibrator of the SN1a magnitude.
+It cannot be used with an additional prior on H0 / Mb, or with the Pantheon_Plus lkl.
+It should work with both Python2 and Python3. In case of a problem write to <vivian.poulin@umontpellier.fr>
+and don't forget to cite arXiv:2202.04077  arXiv:2112.04510
+
+Thanks!
+

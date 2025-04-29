@@ -1,0 +1,17 @@
+# Likelihood is from eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+# https://svn.sdss.org/public/data/eboss/DR16cosmo/tags/v1_0_1/
+# MontePython version by V. Poulin & T. Brinckmann
+
+# The BAO+full shape likelihood for the SDSS DR7 Main Galaxy Sample (MGS),
+# designed to be independent from BOSS (z < 0.2), is based on C. Howlett et al. (2015)
+# and was provided to BOSS by Cullan Howlett via private communication.
+# It combines the post-reconstruction estimate of D_V/r_d with fs8.
+
+# You must cite this reference if you use the likelihood:
+# SDSS DR7 MGS: C. Howlett et al. https://arxiv.org/abs/1409.3238
+
+bao_fs_SDSS_DR7_MGS.data_directory      = data.path['data']
+bao_fs_SDSS_DR7_MGS.data_file           = 'eBOSS_DR16/BAO-plus/sdss_MGS_FSBAO_DVfs8.txt'
+bao_fs_SDSS_DR7_MGS.cov_file            = 'eBOSS_DR16/BAO-plus/sdss_MGS_FSBAO_DVfs8_covtot.txt'
+bao_fs_SDSS_DR7_MGS.rs_rescale          = 1.
+bao_fs_SDSS_DR7_MGS.rd_fid_in_Mpc	    = 147.78

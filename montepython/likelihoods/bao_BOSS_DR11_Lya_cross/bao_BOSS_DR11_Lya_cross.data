@@ -1,0 +1,11 @@
+# This likelihood is from Cuceu, Farr, Lemos & Font-Ribera 2019 (1906.11628) and
+# is based on data from Font-Ribera et al. 2014 (1311.1767).
+# Written by James Farr (June 2019).
+
+bao_BOSS_DR11_Lya_cross.data_directory      = data.path['data']
+bao_BOSS_DR11_Lya_cross.file                = 'BOSS_DR11_scans/BOSS_DR11_scan_aux.txt'
+bao_BOSS_DR11_Lya_cross.xcf_scan            = 'BOSS_DR11_scans/BOSS_DR11_Lya_cross_scan.dat'
+bao_BOSS_DR11_Lya_cross.rd_rescale          = 1.0
+
+bao_BOSS_DR11_Lya_cross.transverse_fid      = 11.59
+bao_BOSS_DR11_Lya_cross.parallel_fid        = 8.708

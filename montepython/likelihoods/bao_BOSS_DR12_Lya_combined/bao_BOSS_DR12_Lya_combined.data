@@ -1,0 +1,12 @@
+# This likelihood is from Cuceu, Farr, Lemos & Font-Ribera 2019 (1906.11628) and
+# is based on data from Bautista et al. 2017 (1712.08064) and
+# du Mas des Bourboux et al. 2017 (1708.02225).
+# Written by James Farr (June 2019).
+
+bao_BOSS_DR12_Lya_combined.data_directory      = data.path['data']
+bao_BOSS_DR12_Lya_combined.file                = 'BOSS_DR12_scans/BOSS_DR12_scan_aux.txt'
+bao_BOSS_DR12_Lya_combined.cf_scan             = 'BOSS_DR12_scans/BOSS_DR12_Lya_combined_scan.dat'
+bao_BOSS_DR12_Lya_combined.rd_rescale          = 1.0
+
+bao_BOSS_DR12_Lya_combined.transverse_fid      = 39.15
+bao_BOSS_DR12_Lya_combined.parallel_fid        = 8.612

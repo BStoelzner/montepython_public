@@ -1,0 +1,17 @@
+#Pantheon_Plus_SH0ES likelihood from   Pantheon+ arXiv:2202.04077 and SH0ES 2112.04510
+# based on former Pantheon likelihood by Rodrigo von Martens
+# which was based on the JLA likelihood
+#it is the Montepython adaptation of the lkl written for cosmosis and
+#available at https://pantheonplussh0es.github.io/
+#author: Vivian Poulin with help from Dillon Brout and Dan Scolnic
+#This likelihood models both SH0ES and Pantheon Plus.
+#It cannot be used with an additional prior on H0 / Mb, or with the Pantheon_Plus lkl.
+
+
+Pantheon_Plus_SH0ES.data_directory = os.path.join(data.path['data'], 'Pantheon_plus')
+##nb: pantheon_plus.dataset also containts SH0ES calibrators
+Pantheon_Plus_SH0ES.settings       = 'pantheon_plus.dataset'
+Pantheon_Plus_SH0ES.conflicting_experiments = ['JLA_simple', 'JLA','Pantheon','Pantheon_Plus']
+
+Pantheon_Plus_SH0ES.use_nuisance = ['M']
+Pantheon_Plus_SH0ES.z_min = 0.023

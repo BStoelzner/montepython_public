@@ -2,7 +2,7 @@
 Monte Python, a Monte Carlo Markov Chain code (with Class!)
 ===========================================================
 
-:Main developer: Thejs Brinckmann <brinckmann@physik.rwth-aachen.de>
+:Main developer: Thejs Brinckmann <thejs.brinckmann@gmail.com>
 :Author: Benjamin Audren <benjamin.audren@epfl.ch>
 :License: MIT
 
@@ -15,7 +15,40 @@ for the bibtex entries).
 
 Recent changelog
 ----------------
+v3.6.1, June 20, 2024
+
+* Added euclid_spectroscopic and euclid_photometric_alm likelihoods from 2303.09451, 2405.06047 (S. Casas, M. Doerenkamp, J. Lesgourgues, S. Pamuk, L. Rathmann, Sabarish V., N. Schoeneberg)
+
+v3.6.0, June 1, 2023
+
+* Added Lyman-alpha alpha-beta-gamma-delta likelihood from 2206.08188 (D. C. Hooper, N. Schoeneberg, R. Murgia)
+
+* Added eBOSS DR16 BAO-only likelihoods (S. Alvi, T. Brinckmann)
+
+* Added eBOSS DR16 BAO-plus likelihoods (V. Poulin, T. Brinckmann)
+
+* Added Pantheon+ and Pantheon+SH0ES likelihoods (V. Poulin)
+
+* Added KiDS-1000 likelihoods (B. Stoelzner)
+
+* Added S_8 as sampling parameter (B. Stoelzner, T. Brinckmann)
+
+* Various bugfixes and pull requests
+
+v3.5.0, Sep 20, 2021
+
+* Added framework for spectral distortions likelihoods, plus mock FIRAS and PIXIE (D. C. Hooper, M. Lucca, N. Schoeneberg)
+
+* Added new Pantheon likelihood with prior on the absolute magnitude (D. Camarena)
+
+* Updated Pantheon likelihood to latest value
+
+* Various bugfixes related to python2 / python3 compatibility (D. C. Hooper, N. Schoeneberg)
+
+* Various additional bugfixes
+
 v3.4.0, Feb 25, 2021
+
 * Added BBN likelihoods from 1907.11594 (N. Schoeneberg, D. C. Hooper)
 
 * Added H0LICOW likelihoods from 1907.04869 (S. Taubenberger, S. Suyu)
@@ -32,29 +65,6 @@ v3.4.0, Feb 25, 2021
 
 * Various additional bugfixes
 
-v3.3.0, Jan 23, 2020
-
-* Added python 3 compatibility, python 2.7 still supported (N. Schöneberg, F. Köhlinger)
-
-* Added Lyman-alpha alpha-beta-gamma likelihood from 1907.01496 (M. Archidiacono, D.C. Hooper, R. Murgia)
-
-* Added new type of parameters, derived_lkl, that behave like derived parameters of the likelihood and are not passed to class (D.C. Hooper)
-
-* Added joint prior on sz nuisance parameters for all Planck 18 likelihoods. Bestfits and covmats updated to reflect this (D.C. Hooper)
-
-* Various bugfixes and minor improvements, e.g. updated example plot file with more options and clarifications
-
-v3.2.0, Aug 21, 2019
-
-* Added Planck 2018 likelihoods and example param files (Deanna Hooper)
-
-* Added BOSS DR12 and eBOSS DR14 Lya and QSO BAO likelihoods from 1906.11628 (James Farr)
-
-* Added KiDS+VIKING-450 likelihood from 1812.06076 (KiDS collaboration)
-
-* Added KiDS-450 correlation function likelihood from 1809.01406 (Fabian Köhlinger)
-
-* Various bugfixes
 
 Details and Examples
 --------------------

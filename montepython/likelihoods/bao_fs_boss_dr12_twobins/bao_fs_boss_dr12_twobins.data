@@ -1,0 +1,24 @@
+# Likelihood is from eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+# https://svn.sdss.org/public/data/eboss/DR16cosmo/tags/v1_0_1/
+# MontePython version by V. Poulin & T. Brinckmann
+
+# The BAO+full shape likelihood for BOSS DR12 LOWZ and LRG samples.
+# You must cite these references if you use the likelihood:
+# Baryon Oscillation Spectroscopic Survey (BOSS) DR12:
+# Galaxies (zeff = 0.38, 0.51): S. Alam et al. https://arxiv.org/abs/1607.03155
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+# Note from the eBOSS DR16 BAO-plus README
+# If you are using BOSS DR12 results (as you should) *only* use the likelihood for first two redshift bins.
+# The eBOSS results combine with BOSS results for z > 0.6. The first two BOSS DR12 results
+# span 0.2 < z < 0.6 (split into 0.2 < z < 0.5 and 0.4 < z < 0.6). For user convenience, the BOSS DR12 results
+# corresponding to these two redshift bins have been extracted and are provided bundled with this DR16 release.
+# The fsigma8(z) values are slightly different that those from the BOSS release, as we have applied a rescaling
+# factor that accounts for the maximum likelihood for the geometrical factors, relative to the template used to
+# extract the fsigma8(z) values. See the appendix of Alam et al. (2020) for more details.
+
+bao_fs_boss_dr12_twobins.data_directory      = data.path['data']
+bao_fs_boss_dr12_twobins.data_file           = 'eBOSS_DR16/BAO-plus/sdss_DR12_LRG_FSBAO_DMDHfs8.txt'
+bao_fs_boss_dr12_twobins.cov_file            = 'eBOSS_DR16/BAO-plus/sdss_DR12_LRG_FSBAO_DMDHfs8_covtot.txt'
+bao_fs_boss_dr12_twobins.rs_rescale          = 1.
+bao_fs_boss_dr12_twobins.rd_fid_in_Mpc	     = 147.78

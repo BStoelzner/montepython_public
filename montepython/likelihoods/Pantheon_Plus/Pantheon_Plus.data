@@ -1,0 +1,15 @@
+# Pantheon_Plus likelihood from   Pantheon+ arXiv:2202.04077
+# based on former Pantheon likelihood by Rodrigo von Martens
+# which was based on the JLA likelihood
+#it is the Montepython adaptation of the lkl written for cosmosis and 
+#available at https://pantheonplussh0es.github.io/
+
+#author: Vivian Poulin with help from Dillon Brout and Dan Scolnic
+
+Pantheon_Plus.data_directory = os.path.join(data.path['data'], 'Pantheon_plus')
+Pantheon_Plus.settings       = 'pantheon_plus.dataset'
+Pantheon_Plus.conflicting_experiments = ['JLA_simple', 'JLA','Pantheon','Pantheon_Plus_SH0ES']
+
+Pantheon_Plus.z_min = 0.01
+
+Pantheon_Plus.use_nuisance = ['M']

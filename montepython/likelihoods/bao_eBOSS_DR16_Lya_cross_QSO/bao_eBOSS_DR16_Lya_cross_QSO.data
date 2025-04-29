@@ -1,0 +1,31 @@
+# Likelihood is from eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+# https://svn.sdss.org/public/data/eboss/DR16cosmo/tags/v1_0_1/
+
+# eBOSS DR16 BAO-only likelihoods were added to MontePython by S. Alvi and T. Brinckmann in 2021
+# for S. Alvi et al. https://arxiv.org/abs/2205.05636
+# NOTE: You must cite all relevant references below to credit the collaboration for their work.
+# You may *optionally* cite the reference above if you want to credit the MontePython addition.
+
+# References for this BAO-only likelihood:
+# Extended Baryon Oscillation Spectroscopic Survey (eBOSS) DR16:
+# Lyman-alpha - QSO cross-correlation (zeff = 2.33): H. du Mas des Bourboux et al. https://arxiv.org/abs/2007.08995
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+# Full list of references for all eBOSS_DR16 BAO-only likelihoods:
+# gal_QSO (DR12 galaxies): S. Alam et al. https://arxiv.org/abs/1607.03155
+# gal_QSO (DR16 LRG): J.E. Bautista et al. https://arxiv.org/abs/2007.08993, H. Gil-Marin et al. https://arxiv.org/abs/2007.08994
+# gal_QSO (DR16 QSO): J. Hou et al. https://arxiv.org/abs/2007.08998, R. Neveux et al. https://arxiv.org/abs/2007.08999
+# ELG (DR16 ELG): A. Tamone et al. https://arxiv.org/abs/2007.09009, A. de Mattia et al. https://arxiv.org/abs/2007.09008
+# Lya_auto (DR16 Lya): H. du Mas des Bourboux et al. https://arxiv.org/abs/2007.08995
+# Lya_cross_QSO (DR16 Lya x QSO): H. du Mas des Bourboux et al. https://arxiv.org/abs/2007.08995
+# eBOSS DR16: S. Alam et al. https://arxiv.org/abs/2007.08991
+
+bao_eBOSS_DR16_Lya_cross_QSO.data_directory     = data.path['data']
+
+# Note that the data contains a normalized likelihood, which
+# is fine for MCMC, but is a problem for evidence calculations
+bao_eBOSS_DR16_Lya_cross_QSO.data_file          = 'eBOSS_DR16/BAO-only/sdss_DR16_LYxQSO_BAO_DMDHgrid.txt'
+bao_eBOSS_DR16_Lya_cross_QSO.lyaxqso_dr16_z_eff = 2.334
+
+bao_eBOSS_DR16_Lya_cross_QSO.rs_rescale         = 1.
+bao_eBOSS_DR16_Lya_cross_QSO.rd_fid_in_Mpc      = 147.78
