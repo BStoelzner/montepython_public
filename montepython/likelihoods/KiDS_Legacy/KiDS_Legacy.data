@@ -1,0 +1,156 @@
+#####################################################################
+# Data and precision parameters for the KiDS-Legacy COSEBIs         #
+# likelihood to be used with data from Wright et al. 2025           #
+# (arXiv:2503.19441) available from:                                #
+#                                                                   #
+# http://kids.strw.leidenuniv.nl/sciencedata.php                    #
+#                                                                   #
+# ATTENTION:                                                        #
+# This likelihood only produces valid results for \Omega_k = 0,     #
+# i.e. flat cosmologies!                                            #
+#####################################################################
+
+### GENERAL SETTINGS ###
+
+## DATA LOCATION ##
+
+# set the path to the main data-folder:
+KiDS_Legacy.data_directory = data.path['data'] + '/KiDS-Legacy'
+
+# set name of FITS file containing all data (within data_directory):
+KiDS_Legacy.data_file = 'MCMC_input_mead2020_feedback.fits'
+
+## COSEBIs PARAMETERS ##
+
+# set the (angular) theta-range for integration to COSEBIs:
+KiDS_Legacy.theta_min = 2.00
+KiDS_Legacy.theta_max = 300.0
+
+## SAVE THEORY VECTOR ##
+
+# write out the E_n theory vector (including all calibrations) in the same
+# format as the legacy data vector
+# you might want to increase 'nbins' for a higher resolution
+KiDS_Legacy.write_out_theory = False
+# the file will be saved to:
+KiDS_Legacy.theory_file = 'COSEBIs_theory.ascii'
+# the likelihood will terminate after writing out the vector. Hence, for an
+# MCMC run this flag needs to be set to False!
+
+## REDSHIFT DISTRIBUTIONS ##
+
+# number of redshift (tomographic) bins:
+KiDS_Legacy.nzbins = 6
+
+# number of discrete z-values used for all integrations, can be set to arbitrary numbers now
+KiDS_Legacy.nzmax = 1000
+
+# you can choose here any of the scipy.interpolate.interp1d types of interpolation
+# (i.e. 'linear', 'nearest', 'zero', 'slinear', 'quadratic', 'cubic', 'previous',
+# 'next' in SciPy v1.1.0) for the n(z) interpolation
+KiDS_Legacy.type_redshift_interp = 'cubic'
+
+## SCALE CUTS ##
+
+# set up the scale cuts to use in the following lines:
+# we keep COSEBIs 1 to 6 in the data vector:
+KiDS_Legacy.nmaxcosebis = 6
+
+## PRECISION SETTINGS ##
+
+# these settings set the precision for the Cl integration
+# minimum l for C_l
+KiDS_Legacy.ell_min = 1.
+# maximum l for C_l
+KiDS_Legacy.ell_max = 1e5
+# number of (log-spaced) ell-nodes between ell_min and ell_max
+KiDS_Legacy.nells = 50
+# if you want to write-out the Cls:
+KiDS_Legacy.write_out_Cls = False
+
+## METHOD FOR NON-LINEAR CORRECTIONS ##
+
+# choose the method for calculation of non-linear corrections, any CLASS keyword
+# is possible, but the default choices are
+# 1) 'halofit' (including Takahashi's update) and
+# 2) 'hmcode' (Mead et al. 2015, 2016)
+# the choice between the two affects also the choice of the baryon feedback
+# modelling further below!
+# for fiducial KiDS-1000 analysis: 'hmcode'
+KiDS_Legacy.method_non_linear_Pk = 'hmcode'
+# scale k_max (in h/Mpc) up to which the non-linear corrections (of the matter
+# power spectrum) are used/trusted (set to zero for k > k_max):
+# To save computation time, we use an interpolation of the matter power spectrum
+# for k > k_max.
+KiDS_Legacy.k_max_h_by_Mpc = 20.
+KiDS_Legacy.nonlinear_min_k_max = 20.
+
+### NUISANCE PARAMETERS ###
+
+## BARYON FEEDBACK ##
+
+# the options below are only valid if 'method_non_linear_Pk' = 'hmcode'!
+# in order to marginalize over the baryon feedback parameters in HMcode define:
+# 1) either 'c_min' only or 'eta_0' only as 'cosmo' parameter in your param-file
+#    (the other value will be inferred and fixed)
+# 2) or 'c_min' and 'eta_0' as 'cosmo' parameter in your param-file
+# DON'T include 'c_min' and 'eta_0' in 'use_nuisance'!
+
+## INTRINSIC ALIGNMENTS (IA) ##
+# Supported IA models: massdep (fiducial) and NLA
+# Massdep requires nuisance parameters: A_IA, beta, log10_M_mean_{1-6}
+# NLA requires: A_IA [and optionally exp_IA to enable redshift scaling (not tested!)]
+KiDS_Legacy.IA_model = 'massdep'
+# Massdep model additionally requires the means and covariance matrix of the IA parameters and the pivot mass
+KiDS_Legacy.filename_massdep_cov = 'massdep_cov.txt'
+KiDS_Legacy.filename_massdep_means = 'massdep_means.txt'
+KiDS_Legacy.log10_M_piv = 13.5
+# Red galaxy fraction per tomographic bin
+KiDS_Legacy.f_r = [0.146, 0.197, 0.173, 0.240, 0.192, 0.030]
+
+# if this flag is set to True, the linear matter power spectrum will be used for
+# the II term in the intrinsic alignment model and for the GI term the geometric
+# mean of the linear and non-linear matter power spectre will be used
+# if set to False, the non-linear matter power spectrum will be used for both
+# the II and GI term instead
+# for fiducial KiDS-1000 analysis: False
+KiDS_Legacy.use_linear_pk_for_IA = False
+
+## SHIFTS OF N(Z) ##
+
+# nuisance parameters for marginalizing over a constant shift of any of the n(z):
+#KiDS_Legacy.use_nuisance = ['D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5']
+
+# supply name of D_z shift correlation matrix (optional):
+# if it is not supplied or cannot be loaded, we assume no correlations between
+# the D_z shift parameters!
+KiDS_Legacy.filename_corrmat_D_z = 'Nz_covariance.txt'
+
+## FULL LIST OF ALL NUISANCES ##
+
+# combine all nuisance parameters in one list for marginalization:
+KiDS_Legacy.use_nuisance = ['A_IA', 'D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', 'A_IA', 'beta', 'log10M_mean_1', 'log10M_mean_2', 'log10M_mean_3', 'log10M_mean_4', 'log10M_mean_5', 'log10M_mean_6']
+# For NLA
+# KiDS_Legacy.use_nuisance = ['A_IA', 'D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', ]
+
+### GAUSSIAN PRIORS (FOR NUISANCES) ###
+
+# if you want to enforce Gaussian priors on some/all NUISANCE parameters, set flag to True
+# if set to False lists below are ignored!
+KiDS_Legacy.use_gaussian_prior_for_nuisance = True
+
+# add here all NUISANCE parameters for which you would like to define Gaussian priors:
+# names must match exactly to the nusiances defined above!
+KiDS_Legacy.gaussian_prior_name = ['D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', 'A_IA', 'beta', 'log10M_mean_1', 'log10M_mean_2', 'log10M_mean_3', 'log10M_mean_4', 'log10M_mean_5', 'log10M_mean_6']
+# For NLA
+# KiDS_Legacy.gaussian_prior_name = ['D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6']
+
+# supply here the central values of the Gaussians (keep the order! no double checks!!!)
+KiDS_Legacy.gaussian_prior_center = [2.5374, -2.44484, -1.37982, -0.494275, 1.40234, 6.26323, 1.977069603580704893e+01, 3.074866003109325874e+01, 4.430836735636641777e+01, -3.206136674281972887e+01, 1.439212386242852517e+02, -1.378196728635030013e+02, -2.028513316870826202e+02, 4.198363708097585913e+02]
+# For NLA
+# KiDS_Legacy.gaussian_prior_center = [2.5374, -2.44484, -1.37982, -0.494275, 1.40234, 6.26323]
+
+# supply here the std wrt. the center (again keep the order!)
+KiDS_Legacy.gaussian_prior_sigma = [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]
+# For NLA
+# KiDS_Legacy.gaussian_prior_sigma = [1., 1., 1., 1., 1., 1.]
