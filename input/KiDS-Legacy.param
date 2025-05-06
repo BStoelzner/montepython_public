@@ -1,0 +1,81 @@
+#------Experiments to test (separated with commas)-----
+
+data.experiments=['KiDS_Legacy']
+
+#------ Settings for the over-sampling. The first element will always be set to
+# 1, for it is the sampling of the cosmological parameters. The other numbers
+# describe the over sampling of the nuisance parameter space. This array must
+# have the same dimension as the number of blocks in your run (so, 1 for
+# cosmological parameters, and then 1 for each experiment with varying nuisance
+# parameters).
+#data.over_sampling=[1, 4]
+
+#------ Parameter list -------
+
+# data.parameters[class name] = [mean, min, max, 1-sigma, scale, role]
+# - if min max irrelevant, put to -1
+# - if fixed, put 1-sigma to 0
+# - if scale irrelevant, put to 1, otherwise to the appropriate factor
+# - role is either 'cosmo' or 'nuisance'
+
+# Cosmological parameters list
+# main parameters to extract:
+
+data.parameters['omega_cdm']    = [0.11570,   0.051,  0.255,     0.0027,    1, 'cosmo']
+data.parameters['omega_b']      = [0.02233,   0.019,  0.026,     0.0280,    1, 'cosmo']
+data.parameters['h']            = [0.68980,   0.640,  0.820,     0.0065,    1, 'cosmo']
+data.parameters['n_s']          = [0.96900,   0.840,  1.100,     0.0074,    1, 'cosmo']
+data.parameters['S_8']          = [0.77700,   0.500,  1.000,     0.0029,    1, 'cosmo']
+
+# Nuisance parameters:
+
+# Intrinsic alignment parameters:
+# Massdep model: uncorrelated parameters
+data.parameters['A_IA']           = [19.7707,    14.7707,  24.7707,    1.0,    1, 'nuisance']
+data.parameters['beta']           = [30.7487,    25.7487,  35.7487,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_1']  = [44.3084,    39.3084,  49.3084,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_2']  = [-32.06137, -37.0614, -27.0614,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_3']  = [143.9212,   138.921,  148.921,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_4']  = [-137.8197, -142.820, -132.820,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_5']  = [-202.8513, -207.851, -197.851,    1.0,    1, 'nuisance']
+data.parameters['log10M_mean_6']  = [419.8364,   414.836,  424.836,    1.0,    1, 'nuisance']
+# NLA model
+# data.parameters['A_IA']  = [0.0,	   -6.0,    6.0,    1.0,    1, 'nuisance']
+
+# parameters for baryon feedback with hmcode2020:
+data.parameters['log10T_heat_hmcode'] = [7.8,    7.3,     8.3,    1.,     1, 'cosmo']
+
+### Delta-z parameters ###
+data.parameters['D_z1'] = [ 2.5374,	     -2.46260, 7.53740, 0.01, 1, 'nuisance']
+data.parameters['D_z2'] = [ -2.44484,    -7.44484, 2.55516, 0.01, 1, 'nuisance']
+data.parameters['D_z3'] = [ -1.37982,    -6.37982, 3.62018, 0.01, 1, 'nuisance']
+data.parameters['D_z4'] = [ -0.494275,   -5.49428, 4.50572, 0.01, 1, 'nuisance']
+data.parameters['D_z5'] = [ 1.40234,     -3.59766, 6.40234, 0.01, 1, 'nuisance']
+data.parameters['D_z6'] = [ 6.26323,      1.26323, 11.2632, 0.01, 1, 'nuisance']
+
+# Derived parameters:
+data.parameters['Omega_m']      = [1, None, None, 0, 1, 'derived']
+data.parameters['sigma8']       = [1, None, None, 0, 1, 'derived']
+
+# Other cosmo parameters (fixed parameters, precision parameters, etc.)
+
+# fix main cosmology to Planck:
+data.cosmo_arguments['Omega_k'] = 0.
+
+# The base model features two massless
+# and one massive neutrino with m=0.06eV.
+# The settings below ensures that these
+# three species contribute equally
+# to the radiation density at large
+# redshift, with a total of Neff=3.046
+data.cosmo_arguments['N_ur'] = 2.0328
+data.cosmo_arguments['N_ncdm'] = 1
+data.cosmo_arguments['m_ncdm'] = 0.06
+data.cosmo_arguments['T_ncdm'] = 0.71611
+
+# standard BBN prediction of the primordial Helium abundance $Y_p$:
+data.cosmo_arguments['sBBN file'] = data.path['cosmo']+'/bbn/sBBN.dat'
+data.cosmo_arguments['k_pivot'] = 0.05
+
+# only needed for regular MCMC:
+data.write_step = 1
