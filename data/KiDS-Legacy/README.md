@@ -15,6 +15,8 @@ See also our follow-up analyses:
 - [Reischke et al 2025](https://arxiv.org/abs/2512.11041) (arXiv: 2512.11041) [Constraints on dark energy, neutrino mass, and curvature]
 - [Stölzner et al 2025](https://arxiv.org/abs/2512.11039) (arXiv: 2512.11039) [Constraints on Horndeski gravity]
 
+To run the full KiDS-Legacy analysis pipeline see: https://github.com/AngusWright/CosmoPipe and the data products on the [KiDS-Website](https://kids.strw.leidenuniv.nl/sciencedata.php)
+
 This folder contains a fits file with the following extensions:
 - En, Bn: COSEBIs E- and B modes
 - COVMAT: Covariance matrix of COSEBIs E- and B modes

@@ -3,7 +3,7 @@
 ######################################################################################################################
 #                                                                                                                    #
 # Based on the fiducial KiDS-Legacy cosmic shear analysis pipeline by Wright et al. 2025 (arXiv:2503.19441)          #
-# and  earlier KiDS MontePython likelihoods.                                                                         #
+# and earlier KiDS MontePython likelihoods.                                                                         #
 # Written by Benjamin Stoelzner.                                                                                     #
 #                                                                                                                    #
 # This likelihood should reproduce the results from the fiducial CosmoSIS pipeline. It uses COSEBIs as summary       #
