@@ -1,5 +1,42 @@
-#------Experiments to test (separated with commas)-----
+######################################################################################################################
+# Parameter file for the KiDS-Legacy COSEBIs likelihood                                                              #
+#                                                                                                                    #
+# Based on the fiducial KiDS-Legacy cosmic shear analysis                                                            #
+# pipeline by Wright et al. 2025 (arXiv:2503.19441) and                                                              #
+# earlier KiDS MontePython likelihoods.                                                                              #
+# Written by Benjamin Stoelzner.                                                                                     #
+#                                                                                                                    #
+# This likelihood should reproduce the results from the fiducial CosmoSIS pipeline. It uses COSEBIs as summary       #
+# statistic, the fiducial mass-dependent intrinsic alignment model, and the fiducial scale cuts (2'<theta<300').     #
+#                                                                                                                    #
+# If you are interested in using KiDS-Legacy data products other than COSEBIs:                                       #
+# See the data products on the KiDS-Website: https://kids.strw.leidenuniv.nl/sciencedata.php                         #
+# These includes chains, data files, and CosmoSIS ini files for COSEBIs, band powers, and 2PCFs,                     #
+# including a joint analysis with external probes and featuring a pre-trained cosmopower emulator                    #
+# and the scale-cuts module for selecting a different number of COSEBI modes, band power bins, and 2PCF bins         #
+#                                                                                                                    #
+# To run the full KiDS-Legacy analysis pipeline see: https://github.com/AngusWright/CosmoPipe                        #
+#                                                                                                                    #
+# Please cite the following papers when KiDS-Legacy data:                                                            #
+#   - Wright et al. 2025 (A&A, 686, A170)    [KiDS DR5 data release paper]                                           #
+#   - Wright et al. 2025 (A&A, 703, A158)    [KiDS-Legacy cosmic shear analysis]                                     #
+#   - Stölzner et al. 2025 (A&A, 702, A169)  [KiDS-Legacy consistency and joint constraints with external probes]    #
+#   - Reischke et al. 2025 (A&A, 699, A124)  [KiDS-Legacy covariance]                                                #
+#   - Wright et al. 2025 (A&A, 703, A144)    [KiDS Legacy redshift calibration]                                      #
+# and include the following acknowledgement in your paper:                                                           #
+#   "Based on observations made with ESO Telescopes at the La Silla Paranal Observatory under programme              #
+#    IDs 179.A-2004, 177.A-3016, 177.A-3017, 177.A-3018, 298.A-5015."                                                #
+#                                                                                                                    #
+# See also our follow-up analyses:                                                                                   #
+#   - Reischke et al 2025 (arXiv: 2512.11041) [Constraints on dark energy, neutrino mass, and curvature]             #
+#   - Stölzner et al 2025 (arXiv: 2512.11039) [Constraints on Horndeski gravity]                                     #
+#                                                                                                                    #
+# ATTENTION:                                                                                                         #   
+# This likelihood only produces valid results for \Omega_k = 0,                                                      #
+# i.e. flat cosmologies!                                                                                             #
+######################################################################################################################
 
+#------Experiments to test (separated with commas)-----
 data.experiments=['KiDS_Legacy']
 
 #------ Settings for the over-sampling. The first element will always be set to
@@ -43,7 +80,7 @@ data.parameters['log10M_mean_6']  = [419.8364,   414.836,  424.836,    1.0,    1
 # data.parameters['A_IA']  = [0.0,	   -6.0,    6.0,    1.0,    1, 'nuisance']
 
 # parameters for baryon feedback with hmcode2020:
-data.parameters['log10T_heat_hmcode'] = [7.8,    7.3,     8.3,    1.,     1, 'cosmo']
+data.parameters['log10T_heat_hmcode'] = [8.0,    7.3,     8.3,    1.,     1, 'cosmo']
 
 ### Delta-z parameters ###
 data.parameters['D_z1'] = [ 2.5374,	     -2.46260, 7.53740, 0.01, 1, 'nuisance']
@@ -67,8 +104,8 @@ data.cosmo_arguments['Omega_k'] = 0.
 # The settings below ensures that these
 # three species contribute equally
 # to the radiation density at large
-# redshift, with a total of Neff=3.046
-data.cosmo_arguments['N_ur'] = 2.0328
+# redshift, with a total of Neff=3.044
+data.cosmo_arguments['N_ur'] = 2.0308
 data.cosmo_arguments['N_ncdm'] = 1
 data.cosmo_arguments['m_ncdm'] = 0.06
 data.cosmo_arguments['T_ncdm'] = 0.71611

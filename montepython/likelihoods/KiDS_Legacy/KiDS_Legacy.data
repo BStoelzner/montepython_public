@@ -1,14 +1,37 @@
-#####################################################################
-# Data and precision parameters for the KiDS-Legacy COSEBIs         #
-# likelihood to be used with data from Wright et al. 2025           #
-# (arXiv:2503.19441) available from:                                #
-#                                                                   #
-# http://kids.strw.leidenuniv.nl/sciencedata.php                    #
-#                                                                   #
-# ATTENTION:                                                        #
-# This likelihood only produces valid results for \Omega_k = 0,     #
-# i.e. flat cosmologies!                                            #
-#####################################################################
+######################################################################################################################
+# Data and precision parameters for the KiDS-Legacy COSEBIs likelihood to be used with data                          #
+# from Wright et al. 2025 (arXiv:2503.19441).                                                                        #
+# Written by Benjamin Stoelzner.                                                                                     #
+#                                                                                                                    #
+# This likelihood should reproduce the results from the fiducial CosmoSIS pipeline. It uses COSEBIs as summary       #
+# statistic, the fiducial mass-dependent intrinsic alignment model, and the fiducial scale cuts (2'<theta<300').     #
+#                                                                                                                    #
+# If you are interested in using KiDS-Legacy data products other than COSEBIs:                                       #
+# See the data products on the KiDS-Website: https://kids.strw.leidenuniv.nl/sciencedata.php                         #
+# These includes chains, data files, and CosmoSIS ini files for COSEBIs, band powers, and 2PCFs,                     #
+# including a joint analysis with external probes and featuring a pre-trained cosmopower emulator                    #
+# and the scale-cuts module for selecting a different number of COSEBI modes, band power bins, and 2PCF bins         #
+#                                                                                                                    #
+# To run the full KiDS-Legacy analysis pipeline see: https://github.com/AngusWright/CosmoPipe                        #
+#                                                                                                                    #
+# Please cite the following papers when KiDS-Legacy data:                                                            #
+#   - Wright et al. 2025 (A&A, 686, A170)    [KiDS DR5 data release paper]                                           #
+#   - Wright et al. 2025 (A&A, 703, A158)    [KiDS-Legacy cosmic shear analysis]                                     #
+#   - Stölzner et al. 2025 (A&A, 702, A169)  [KiDS-Legacy consistency and joint constraints with external probes]    #
+#   - Reischke et al. 2025 (A&A, 699, A124)  [KiDS-Legacy covariance]                                                #
+#   - Wright et al. 2025 (A&A, 703, A144)    [KiDS Legacy redshift calibration]                                      #
+# and include the following acknowledgement in your paper:                                                           #
+#   "Based on observations made with ESO Telescopes at the La Silla Paranal Observatory under programme              #
+#    IDs 179.A-2004, 177.A-3016, 177.A-3017, 177.A-3018, 298.A-5015."                                                #
+#                                                                                                                    #
+# See also our follow-up analyses:                                                                                   #
+#   - Reischke et al 2025 (arXiv: 2512.11041) [Constraints on dark energy, neutrino mass, and curvature]             #
+#   - Stölzner et al 2025 (arXiv: 2512.11039) [Constraints on Horndeski gravity]                                     #
+#                                                                                                                    #
+# ATTENTION:                                                                                                         #   
+# This likelihood only produces valid results for \Omega_k = 0,                                                      #
+# i.e. flat cosmologies!                                                                                             #
+######################################################################################################################
 
 ### GENERAL SETTINGS ###
 
@@ -18,7 +41,7 @@
 KiDS_Legacy.data_directory = data.path['data'] + '/KiDS-Legacy'
 
 # set name of FITS file containing all data (within data_directory):
-KiDS_Legacy.data_file = 'MCMC_input_mead2020_feedback.fits'
+KiDS_Legacy.data_file = 'KiDS_Legacy_cosebis.fits'
 
 ## COSEBIs PARAMETERS ##
 
@@ -43,7 +66,7 @@ KiDS_Legacy.theory_file = 'COSEBIs_theory.ascii'
 KiDS_Legacy.nzbins = 6
 
 # number of discrete z-values used for all integrations, can be set to arbitrary numbers now
-KiDS_Legacy.nzmax = 1000
+KiDS_Legacy.nzmax = 6000
 
 # you can choose here any of the scipy.interpolate.interp1d types of interpolation
 # (i.e. 'linear', 'nearest', 'zero', 'slinear', 'quadratic', 'cubic', 'previous',
@@ -70,13 +93,8 @@ KiDS_Legacy.write_out_Cls = False
 
 ## METHOD FOR NON-LINEAR CORRECTIONS ##
 
-# choose the method for calculation of non-linear corrections, any CLASS keyword
-# is possible, but the default choices are
-# 1) 'halofit' (including Takahashi's update) and
-# 2) 'hmcode' (Mead et al. 2015, 2016)
-# the choice between the two affects also the choice of the baryon feedback
-# modelling further below!
-# for fiducial KiDS-1000 analysis: 'hmcode'
+# Choose the method for calculation of non-linear corrections:
+# In this likelihood, we only implemented hmcode2020
 KiDS_Legacy.method_non_linear_Pk = 'hmcode'
 # scale k_max (in h/Mpc) up to which the non-linear corrections (of the matter
 # power spectrum) are used/trusted (set to zero for k > k_max):
@@ -87,26 +105,19 @@ KiDS_Legacy.nonlinear_min_k_max = 20.
 
 ### NUISANCE PARAMETERS ###
 
-## BARYON FEEDBACK ##
-
-# the options below are only valid if 'method_non_linear_Pk' = 'hmcode'!
-# in order to marginalize over the baryon feedback parameters in HMcode define:
-# 1) either 'c_min' only or 'eta_0' only as 'cosmo' parameter in your param-file
-#    (the other value will be inferred and fixed)
-# 2) or 'c_min' and 'eta_0' as 'cosmo' parameter in your param-file
-# DON'T include 'c_min' and 'eta_0' in 'use_nuisance'!
-
 ## INTRINSIC ALIGNMENTS (IA) ##
-# Supported IA models: massdep (fiducial) and NLA
+# The fiducial model is the mass-dependent IA model. This likelihood also supports NLA
+# for backwards compatibility.
 # Massdep requires nuisance parameters: A_IA, beta, log10_M_mean_{1-6}
 # NLA requires: A_IA [and optionally exp_IA to enable redshift scaling (not tested!)]
+# Options: massdep (fiducial), NLA
 KiDS_Legacy.IA_model = 'massdep'
 # Massdep model additionally requires the means and covariance matrix of the IA parameters and the pivot mass
 KiDS_Legacy.filename_massdep_cov = 'massdep_cov.txt'
 KiDS_Legacy.filename_massdep_means = 'massdep_means.txt'
 KiDS_Legacy.log10_M_piv = 13.5
 # Red galaxy fraction per tomographic bin
-KiDS_Legacy.f_r = [0.146, 0.197, 0.173, 0.240, 0.192, 0.030]
+KiDS_Legacy.f_r = [0.158, 0.198, 0.206, 0.258, 0.207, 0.026]
 
 # if this flag is set to True, the linear matter power spectrum will be used for
 # the II term in the intrinsic alignment model and for the GI term the geometric
@@ -118,9 +129,6 @@ KiDS_Legacy.use_linear_pk_for_IA = False
 
 ## SHIFTS OF N(Z) ##
 
-# nuisance parameters for marginalizing over a constant shift of any of the n(z):
-#KiDS_Legacy.use_nuisance = ['D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5']
-
 # supply name of D_z shift correlation matrix (optional):
 # if it is not supplied or cannot be loaded, we assume no correlations between
 # the D_z shift parameters!
@@ -131,7 +139,7 @@ KiDS_Legacy.filename_corrmat_D_z = 'Nz_covariance.txt'
 # combine all nuisance parameters in one list for marginalization:
 KiDS_Legacy.use_nuisance = ['A_IA', 'D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', 'A_IA', 'beta', 'log10M_mean_1', 'log10M_mean_2', 'log10M_mean_3', 'log10M_mean_4', 'log10M_mean_5', 'log10M_mean_6']
 # For NLA
-# KiDS_Legacy.use_nuisance = ['A_IA', 'D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', ]
+#KiDS_Legacy.use_nuisance = ['A_IA', 'D_z1', 'D_z2', 'D_z3', 'D_z4', 'D_z5', 'D_z6', ]
 
 ### GAUSSIAN PRIORS (FOR NUISANCES) ###
 

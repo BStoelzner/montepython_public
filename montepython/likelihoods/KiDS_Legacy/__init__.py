@@ -1,20 +1,42 @@
-##############################################################
-# Likelihood for KiDS-Legacy COSEBIs                         #
-##############################################################
-#
-# Based on the fiducial KiDS-Legacy cosmic shear analysis
-# pipeline by Wright et al. 2025 (arXiv:2503.19441) and 
-# earlier KiDS MontePython likelihoods.
-# Written by Benjamin Stoelzner.
-#
-# Data available from:
-#
-# http://kids.strw.leidenuniv.nl/sciencedata.php
-#
-# ATTENTION:
-# This likelihood only produces valid results for \Omega_k = 0,
-# i.e. flat cosmologies!
-##############################################################
+######################################################################################################################
+# Likelihood for KiDS-Legacy COSEBIs                                                                                 #
+######################################################################################################################
+#                                                                                                                    #
+# Based on the fiducial KiDS-Legacy cosmic shear analysis pipeline by Wright et al. 2025 (arXiv:2503.19441)          #
+# and  earlier KiDS MontePython likelihoods.                                                                         #
+# Written by Benjamin Stoelzner.                                                                                     #
+#                                                                                                                    #
+# This likelihood should reproduce the results from the fiducial CosmoSIS pipeline. It uses COSEBIs as summary       #
+# statistic, the fiducial mass-dependent intrinsic alignment model, and the fiducial scale cuts (2'<theta<300').     #
+# The code for calculating COSEBIs from shear Cls was adopted from:                                                  #
+# https://github.com/KiDS-WL/kcap/blob/v2/utils/bandpower_cosebis.py                                                 #
+#                                                                                                                    #
+# If you are interested in using KiDS-Legacy data products other than COSEBIs:                                       #
+# See the data products on the KiDS-Website: https://kids.strw.leidenuniv.nl/sciencedata.php                         #
+# These includes chains, data files, and CosmoSIS ini files for COSEBIs, band powers, and 2PCFs,                     #
+# including a joint analysis with external probes and featuring a pre-trained cosmopower emulator                    #
+# and the scale-cuts module for selecting a different number of COSEBI modes, band power bins, and 2PCF bins         #
+#                                                                                                                    #
+# To run the full KiDS-Legacy analysis pipeline see: https://github.com/AngusWright/CosmoPipe                        #
+#                                                                                                                    #
+# Please cite the following papers when KiDS-Legacy data:                                                            #
+#   - Wright et al. 2025 (A&A, 686, A170)    [KiDS DR5 data release paper]                                           #
+#   - Wright et al. 2025 (A&A, 703, A158)    [KiDS-Legacy cosmic shear analysis]                                     #
+#   - Stölzner et al. 2025 (A&A, 702, A169)  [KiDS-Legacy consistency and joint constraints with external probes]    #
+#   - Reischke et al. 2025 (A&A, 699, A124)  [KiDS-Legacy covariance]                                                #
+#   - Wright et al. 2025 (A&A, 703, A144)    [KiDS Legacy redshift calibration]                                      #
+# and include the following acknowledgement in your paper:                                                           #
+#   "Based on observations made with ESO Telescopes at the La Silla Paranal Observatory under programme              #
+#    IDs 179.A-2004, 177.A-3016, 177.A-3017, 177.A-3018, 298.A-5015."                                                #
+#                                                                                                                    #
+# See also our follow-up analyses:                                                                                   #
+#   - Reischke et al 2025 (arXiv: 2512.11041) [Constraints on dark energy, neutrino mass, and curvature]             #
+#   - Stölzner et al 2025 (arXiv: 2512.11039) [Constraints on Horndeski gravity]                                     #
+#                                                                                                                    #
+# ATTENTION:                                                                                                         #   
+# This likelihood only produces valid results for \Omega_k = 0,                                                      #
+# i.e. flat cosmologies!                                                                                             #
+######################################################################################################################
 
 from montepython.likelihood_class import Likelihood
 
@@ -107,7 +129,7 @@ class KiDS_Legacy(Likelihood):
         # if we interpolate anyway at arbitrary resolution the extra 0 doesn't matter
         else:
             self.nzmax += 1
-            self.z_p = np.linspace(self.z_samples.min(), self.z_samples.max(), self.nzmax)
+            self.z_p = np.linspace(0.0, self.z_samples.max(), self.nzmax)
             print('Integration performed at set nzmax={:} resolution! \n'.format(self.nzmax - 1))
         if self.z_p[0] == 0:
             self.z_p[0] = 1e-4
@@ -117,20 +139,17 @@ class KiDS_Legacy(Likelihood):
 
         for zbin in range(self.nzbins):
             # we assume that the z-spacing is the same for each histogram
-            # spline_pz = itp.interp1d(self.z_samples, self.hist_samples[zbin, :], kind=self.type_redshift_interp, fill_value=0.0, bounds_error=False)
-            # self.splines_pz.append(spline_pz)
-            spline_pz = itp.interp1d(self.z_samples, self.hist_samples[zbin, :], kind=self.type_redshift_interp)
+            spline_pz = itp.interp1d(self.z_samples, self.hist_samples[zbin, :], kind=self.type_redshift_interp, fill_value='extrapolate')
             self.splines_pz.append(spline_pz)
             mask_min = self.z_p >= self.z_samples.min()
             mask_max = self.z_p <= self.z_samples.max()
             mask = mask_min & mask_max
             # points outside the z-range of the histograms are set to 0!
-            #self.pz[mask, zbin] = itp.splev(self.z_p[mask], spline_pz)
             self.pz[mask, zbin] = spline_pz(self.z_p[mask])
             # Normalize selection functions
             dz = self.z_p[1:] - self.z_p[:-1]
             self.pz_norm[zbin] = np.sum(0.5 * (self.pz[1:, zbin] + self.pz[:-1, zbin]) * dz)
-
+            
         self.zmax = self.z_p.max()
         self.need_cosmo_arguments(data, {'z_max_pk': self.zmax})
 
@@ -193,14 +212,11 @@ class KiDS_Legacy(Likelihood):
                 raise Exception('Error: data file only contains %d COSEBIs modes!'%(np.max(cosebis_mode)))
 
             # Read redshift distributions
-            # Add zero at z = 0
-            # z_mid = f['NZ_SOURCE'].data['Z_MID']
-            z_mid = np.concatenate((np.zeros(1),f['NZ_SOURCE'].data['Z_MID']))
+            z_mid = f['NZ_SOURCE'].data['Z_MID']
             nz = len(z_mid)
             z_hist = np.zeros((self.nzbins,nz))
             for i in range(self.nzbins):
-                # z_hist[i] = f['NZ_SOURCE'].data['BIN%d'%(i+1)]
-                z_hist[i] = np.concatenate((np.zeros(1),f['NZ_SOURCE'].data['BIN%d'%(i+1)]))
+                z_hist[i] = f['NZ_SOURCE'].data['BIN%d'%(i+1)]
 
         return(cosebis_data, cosebis_cov, cosebis_inv_cov, z_mid, z_hist)
 
@@ -211,8 +227,6 @@ class KiDS_Legacy(Likelihood):
 
         # arbitrary convention
         z0 = 0.3
-        #print utils.growth_factor(z, self.Omega_m)
-        #print self.rho_crit
         factor = -1. * amplitude * const * rho_crit * Omega_m / linear_growth_rate * ((1. + z) / (1. + z0))**exponent
 
         return factor
@@ -352,7 +366,8 @@ class KiDS_Legacy(Likelihood):
                 # Changed sign w.r.t. KiDS-1000 likelihood to make it consistent with cosmosis pipeline
                 z_mod = self.z_p - D_z_corr[zbin]
                 spline_pz = self.splines_pz[zbin]
-                mask_min = z_mod >= self.z_samples.min()
+                # check for z<0
+                mask_min = z_mod >= 0
                 mask_max = z_mod <= self.z_samples.max()
                 mask = mask_min & mask_max
                 # points outside the z-range of the histograms are set to 0!
@@ -413,7 +428,10 @@ class KiDS_Legacy(Likelihood):
                             coef_1 = self.f_r[Bin1] * np.power((M_mean[Bin1] / self.M_piv), beta)
                             coef_2 = self.f_r[Bin2] * np.power((M_mean[Bin2] / self.M_piv), beta)
                             Cl_II_integrand[1:, self.__one_dim_index(Bin1, Bin2)] = coef_1 * coef_2 * pr[1:, Bin1] * pr[1:, Bin2] * factor_IA[1:]**2 / r[1:]**2 * pk[il, 1:]
-                            Cl_GI_integrand[1:, self.__one_dim_index(Bin1, Bin2)] = (coef_2 * g[1:, Bin1] * pr[1:, Bin2] + coef_1 * g[1:, Bin2] * pr[1:, Bin1]) * factor_IA[1:] / r[1:]**2 * pk[il, 1:]
+                            if Bin1 != Bin2:
+                                Cl_GI_integrand[1:, self.__one_dim_index(Bin1, Bin2)] = (coef_2 * g[1:, Bin1] * pr[1:, Bin2] + coef_1 * g[1:, Bin2] * pr[1:, Bin1]) * factor_IA[1:] / r[1:]**2 * pk[il, 1:]
+                            else:
+                                Cl_GI_integrand[1:, self.__one_dim_index(Bin1, Bin2)] = (coef_2**2 * g[1:, Bin1] * pr[1:, Bin2] + coef_1**2 * g[1:, Bin2] * pr[1:, Bin1]) * factor_IA[1:] / r[1:]**2 * pk[il, 1:]
 
             # Integrate over r to get C_l^shear_ij = P_ij(l)
             # C_l^shear_ij = 9/16 Omega0_m^2 H_0^4 \sum_0^rmax dr (g_i(r)
@@ -440,7 +458,6 @@ class KiDS_Legacy(Likelihood):
             Cl = Cl_GG
 
         if self.write_out_Cls:
-            #Cls_out = np.zeros((self.nzcorrs + 1, self.nells), 'float64')
             Cls_out = self.ells
             fname = os.path.join(self.data_directory, 'Cls_tot.txt')
             header = 'ells, '
@@ -474,7 +491,7 @@ class KiDS_Legacy(Likelihood):
 
     def log_interpolate(self, x_arr, y_arr, x):
         """
-        Adapted from: https://github.com/KiDS-WL/kcap/blob/v2/utils/bandpower_cosebis.py
+        Adopted from: https://github.com/KiDS-WL/kcap/blob/v2/utils/bandpower_cosebis.py
         """
         log_x_arr = np.log(x_arr)
         if np.any(y_arr <= 0):
@@ -506,7 +523,7 @@ class KiDS_Legacy(Likelihood):
     
     def Cl_to_cosebis(self,Cls):
         """
-        Adapted from: https://github.com/KiDS-WL/kcap/blob/v2/utils/bandpower_cosebis.py
+        Adopted from: https://github.com/KiDS-WL/kcap/blob/v2/utils/bandpower_cosebis.py
         """
         # number of bin combinations
         n_corrs = int(self.nzbins*(self.nzbins+1)/2)
@@ -522,8 +539,7 @@ class KiDS_Legacy(Likelihood):
             Cl_EE[m] = self.log_interpolate(self.ells, Cls[i], self.ell_window[m])
             EE = itg.simpson(self.WnLog * Cl_EE, self.ell_window, axis=1)
             cosebis_theory[i*self.nmaxcosebis:(i+1)*self.nmaxcosebis] = EE
-        # fname = os.path.join(self.data_directory, 'cosebis_theory.txt')
-        # np.savetxt(fname, cosebis_theory)
+            
         return(cosebis_theory)
         
         
